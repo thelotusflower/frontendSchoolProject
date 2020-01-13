@@ -1,4 +1,11 @@
-var { Router, Route, IndexRoute, Link, browserHistory } = ReactRouter
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {
+  BrowserRouter as Router,
+  Route, 
+  Link
+} from 'react-router-dom';
+import './index.css';
 
 class MainLayout extends React.Component {
     constructor(props) {
@@ -20,7 +27,7 @@ class MainLayout extends React.Component {
       <div className="app">
          <div className="wrapper">
             <aside class="layout_header">
-                <img src="https://image.flaticon.com/icons/png/512/1946/1946355.png" width="25"/>
+                <img alt="pic" src="https://image.flaticon.com/icons/png/512/1946/1946355.png" width="25"/>
              </aside>
           
           <main class="layout_footer">
@@ -93,7 +100,7 @@ class Posts  extends React.Component {
         <h1 className="feed_header">Топ посты</h1>
         <div className="feed_item">
           <div className="feed_img">
-            <img src="https://i1.sndcdn.com/avatars-000154620368-s64hq8-t500x500.jpg" width="125"/>
+            <img alt="pic" src="https://i1.sndcdn.com/avatars-000154620368-s64hq8-t500x500.jpg" width="125"/>
           </div>
           <div className="feed_body">             
             <div className="feed_autor">
@@ -103,8 +110,8 @@ class Posts  extends React.Component {
               And that's not a joke, we really do.
             </div>  
             <div className="feed_likes">
-              <img src="https://i.pinimg.com/originals/00/da/4a/00da4ad5acf86d5f802038c527dbf635.png" width="25"/><span className="feed_amount">24</span>
-              <img src="https://image.flaticon.com/icons/svg/1999/1999353.svg" width="25"/><span className="feed_amount">40</span>
+              <img alt="pic" src="https://i.pinimg.com/originals/00/da/4a/00da4ad5acf86d5f802038c527dbf635.png" width="25"/><span className="feed_amount">24</span>
+              <img alt="pic" src="https://image.flaticon.com/icons/svg/1999/1999353.svg" width="25"/><span className="feed_amount">40</span>
             </div>
           </div>
         </div>        
@@ -114,15 +121,15 @@ class Posts  extends React.Component {
 }
 
 class Root extends React.Component {
-      constructor(props) {
-      super(props);
-      this.state = { 
-        routesList: [
-           {name:'Коты', path: 'post1', component: Posts},
-           {name:'Мемы', path: 'post1', component: Posts},
-         ]
+  constructor(props) {
+    super(props);
+    this.state = { 
+      routesList: [
+          {name:'Коты', path: 'post1', component: Posts},
+          {name:'Мемы', path: 'post1', component: Posts},
+        ]
       }
-    } 
+  } 
 
   addNewCategory = (value) => {
     this.state.routesList.push({name: value, path: 'Qs' + (+new Date()), component: Posts})
@@ -131,8 +138,8 @@ class Root extends React.Component {
   render() {
     return (
       <Router>
-          <Route path="/" component={MainLayout} addNewCategory={this.addNewCategory} routesList={this.state.routesList}>
-          <IndexRoute component={Home} />
+        <Route path="/" component={MainLayout} addNewCategory={this.addNewCategory} routesList={this.state.routesList}>
+          <Route component={Home} />
           <Route component={SearchLayout}>
             <Route path="post1" component={Posts}  routesList={this.state.routesList}/>
             { this.state.routesList.map(function(route) {
