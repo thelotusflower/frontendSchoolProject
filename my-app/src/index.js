@@ -8,12 +8,6 @@ import {
 } from 'react-router-dom';
 import './index.css';
 
-// For this demo, we are using the UMD build of react-router-dom
-
-
-// A simple data API that will be used to get the data for our
-// components. On a real website, a more robust data fetching
-// solution would be more appropriate.
 const SinglePostAPI = {
   posts: [
     { number: 1, name: "Котики", groups: ['mdk', 'habr'] },
@@ -26,9 +20,6 @@ const SinglePostAPI = {
     return this.posts.find(isSinglePost)
   }
 }
-
-// The AllPosts iterates over all of the posts and creates
-// a link to their profile page.
 
 class AllPosts extends React.Component {
     constructor(props) {
@@ -68,9 +59,6 @@ class AllPosts extends React.Component {
     }
 }
 
-// The SinglePost looks up the post using the number parsed from
-// the URL's pathname. If no post is found with the given
-// number, then a "post not found" message is displayed.
 const SinglePost = (props) => {
   const post = SinglePostAPI.get(
     parseInt(props.match.params.number, 10)
@@ -129,8 +117,6 @@ const SinglePost = (props) => {
   )
 }
 
-// The Posts component matches one of two different routes
-// depending on the full pathname
 const Posts = () => (
   <Switch>
     <Route exact path='/posts' component={AllPosts}/>
@@ -153,11 +139,6 @@ const Icon = () => (
      </aside>
 )
 
-// The Main component renders one of the three provided
-// Routes (provided that one matches). Both the /roster
-// and /schedule routes will match any pathname that starts
-// with /roster or /schedule. The / route will only match
-// when the pathname is exactly the string "/"
 const Main = () => (
   <main>
     <Switch>
@@ -167,8 +148,6 @@ const Main = () => (
   </main>
 )
 
-// The Header creates links that can be used to navigate
-// between routes.
 const Header = () => (
   <header>
     <menu className="layout_header">
@@ -208,8 +187,6 @@ const App = () => (
   </div>
 )
 
-// This demo uses a HashRouter instead of BrowserRouter
-// because there is no server to match URLs
 ReactDOM.render((
   <Router>
     <App />
