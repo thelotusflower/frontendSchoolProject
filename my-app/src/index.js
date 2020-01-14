@@ -31,8 +31,8 @@ class MainLayout extends React.Component {
                 <img alt="pic" src="https://image.flaticon.com/icons/png/512/1946/1946355.png" width="25"/>
              </aside>
 
-          <main className="layout_footer">
-            {this.props.children}
+          <main>
+            {this.props.children}11 <Posts/>
           </main>
            <menu className="layout_header">
             <input type="text" value={this.state.value} onChange={this.setCategoryName} placeholder="Введите имя категории..." />
@@ -77,20 +77,6 @@ class Home extends React.Component {
         <p className="feed_body">Выберете категорию</p>
       </div>
     )
-  }
-}
-
-class SearchLayout extends React.Component {
-  render() {
-    return (
-      <div className="search">
-        <header className="search-header"></header>
-        <div className="results">
-          {this.props.children}
-        </div>
-        <div className="search-footer pagination"></div>
-      </div>
-      )
   }
 }
 
@@ -140,9 +126,9 @@ class Root extends React.Component {
     return (
         <Router>
           <Switch>
-            <Route path="/" render={() => <MainLayout addNewCategory={this.addNewCategory} routesList={this.state.routesList} />} />
-            <Route component={Home} />
-            <Route component={SearchLayout} />
+
+            <Route render={() => <MainLayout addNewCategory={this.addNewCategory} routesList={this.state.routesList} />} />
+            <Route path="/" component={Home} />
             <Route path="/post1" render={() => <Posts routesList={this.state.routesList} />} />
           </Switch>
          </Router>
