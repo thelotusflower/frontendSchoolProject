@@ -16,9 +16,9 @@ import './index.css';
 // solution would be more appropriate.
 const SinglePostAPI = {
   posts: [
-    { number: 1, name: "Котики" },
-    { number: 2, name: "Мемы" },
-    { number: 3, name: "Java" }
+    { number: 1, name: "Котики", groups: ['mdk', 'habr'] },
+    { number: 2, name: "Мемы", groups: ['mdk', 'habr'] },
+    { number: 3, name: "Java", groups: ['mdk', 'habr'] }
   ],
   all: function() { return this.posts},
   get: function(id) {
@@ -46,7 +46,7 @@ class AllPosts extends React.Component {
 
      addNewCategory(value) {
          console.log(SinglePostAPI.posts);
-         SinglePostAPI.posts.push({ number: SinglePostAPI.posts.length + 1, name: this.state.categoryName })
+         SinglePostAPI.posts.push({ number: SinglePostAPI.posts.length + 1, name: this.state.categoryName, groups: ['mdk', 'habr'] })
      }
 
     render() {
@@ -93,7 +93,21 @@ const SinglePost = (props) => {
         </Link>
     </h1>
     <h1 className="feed_header">#{post.number} {post.name}</h1>
-    <h1 className="feed_header">Топ посты :</h1>
+    <div className="feed_header">Добавить новую группу
+        <input type="text"  placeholder="Введите имя группы..." />
+        <button onClick = {() => {}}>Создать новую группу</button>
+    </div>
+    <div className="feed_header">Мои группы:
+    {
+      post.groups.map(g => (
+        <li key={g.number}>
+          {g}
+        </li>
+      ))
+    }
+    </div>
+    <div className="feed_header">Топ посты :</div>
+
     <div className="feed_item">
         <div className="feed_img">
           <img src="https://i1.sndcdn.com/avatars-000154620368-s64hq8-t500x500.jpg" width="125"/>
