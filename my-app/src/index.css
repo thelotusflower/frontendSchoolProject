@@ -9,7 +9,7 @@
 body {
   font-family: 'Rubik', sans-serif;
   font-size: 1rem;
-  line-height: 1.5; 
+  line-height: 1.5;
 }
 
 :root {
@@ -31,6 +31,7 @@ h1 {
 }
 a {
   text-decoration: none;
+  color: inherit;
 }
 
 li {
@@ -61,10 +62,10 @@ button {
 }
 
 .wrapper{
-  display: flex;  
+  display: flex;
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto;  
+  margin: 0 auto;
 }
 
 aside {
@@ -73,7 +74,7 @@ aside {
 }
 
 main {
-  flex: 1; 
+  flex: 1;
   margin: 0 30px;
   border-left: 1px solid var(--cs-separator);
   border-right: 1px solid var(--cs-separator);
@@ -82,7 +83,7 @@ main {
 menu {
   max-width: 300px;
   padding: 20px;
-} 
+}
 .section {
     background-color: var(--cs-surface-2);
     border-radius: 10px;
@@ -99,7 +100,7 @@ menu {
 }
 
 .nav_item:focus {
-    color: #6200ee; 
+    color: #6200ee;
 }
 
 .section_block--header {
@@ -112,7 +113,7 @@ menu {
     padding: 20px;
 }
 
-.feed_body { 
+.feed_body {
     padding: 10px 20px;
 }
 
