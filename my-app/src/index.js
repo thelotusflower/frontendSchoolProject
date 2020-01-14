@@ -8,20 +8,20 @@ import {
 } from 'react-router-dom';
 import './index.css';
 
-const SinglePostAPI = {
-  posts: [
+const SinglePostListAPI = {
+  postlist: [
     { number: 1, name: "Котики", groups: ['mdk', 'habr'] },
     { number: 2, name: "Мемы", groups: ['mdk', 'habr'] },
     { number: 3, name: "Java", groups: ['mdk', 'habr'] }
   ],
-  all: function() { return this.posts},
+  all: function() { return this.postlist},
   get: function(id) {
-    const isSinglePost = p => p.number === id
-    return this.posts.find(isSinglePost)
+    const isSinglePostList = p => p.number === id
+    return this.postlist.find(isSinglePostList)
   }
 }
 
-class AllPosts extends React.Component {
+class AllPostLists extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -36,8 +36,8 @@ class AllPosts extends React.Component {
      }
 
      addNewCategory(value) {
-         console.log(SinglePostAPI.posts);
-         SinglePostAPI.posts.push({ number: SinglePostAPI.posts.length + 1, name: this.state.categoryName, groups: ['mdk', 'habr'] })
+         console.log(SinglePostListAPI.postlist);
+         SinglePostListAPI.postlist.push({ number: SinglePostListAPI.postlist.length + 1, name: this.state.categoryName, groups: ['mdk', 'habr'] })
      }
 
     render() {
@@ -47,9 +47,9 @@ class AllPosts extends React.Component {
                 <button onClick = {() => {this.addNewCategory()}}>Создать новую категорию</button>
                 <ul>
                   {
-                    SinglePostAPI.all().map(p => (
+                    SinglePostListAPI.all().map(p => (
                       <li key={p.number} className="nav_item">
-                        <Link to={`/posts/${p.number}`}>{p.number} {p.name}</Link>
+                        <Link to={`/postlist/${p.number}`}>{p.number} {p.name}</Link>
                       </li>
                     ))
                   }
@@ -59,14 +59,14 @@ class AllPosts extends React.Component {
     }
 }
 
-const SinglePost = (props) => {
-  const post = SinglePostAPI.get(
+const SinglePostList = (props) => {
+  const post = SinglePostListAPI.get(
     parseInt(props.match.params.number, 10)
   )
   if (!post) {
     return <div>
         <h1 className="feed_header">
-            <Link to='/posts'>
+            <Link to='/postlist'>
                 <img src="http://ooep.kpi.ua/page_res/back.png" width="15"/> назад
             </Link>
         </h1>
@@ -76,7 +76,7 @@ const SinglePost = (props) => {
   return (
   <div>
     <h1 className="feed_header">
-        <Link to='/posts'>
+        <Link to='/postlist'>
             <img src="http://ooep.kpi.ua/page_res/back.png" width="15"/> назад
         </Link>
     </h1>
@@ -117,10 +117,10 @@ const SinglePost = (props) => {
   )
 }
 
-const Posts = () => (
+const PostLists = () => (
   <Switch>
-    <Route exact path='/posts' component={AllPosts}/>
-    <Route path='/posts/:number' component={SinglePost}/>
+    <Route exact path='/postlist' component={AllPostLists}/>
+    <Route path='/postlist/:number' component={SinglePostList}/>
   </Switch>
 )
 
@@ -143,7 +143,7 @@ const Main = () => (
   <main>
     <Switch>
       <Route exact path='/' component={Home}/>
-      <Route path='/posts' component={Posts}/>
+      <Route path='/postlist' component={PostLists}/>
     </Switch>
   </main>
 )
@@ -160,7 +160,7 @@ const Header = () => (
               <Link to='/' className="nav_item">Главная</Link>
             </li>
             <li>
-              <Link to='/posts' className="nav_item">Посты</Link>
+              <Link to='/postlist' className="nav_item">Посты</Link>
             </li>
           </ul>
         </div>
