@@ -1,3 +1,4 @@
+import { bestTimelinePosts } from './bestTimelinePosts.js';
 const fetch = require('node-fetch');
 
 async function getPosts(offset, publicId) {
@@ -32,9 +33,12 @@ async function loadPostsFromGroups(groupIds) {
     for(let group of groupIds) {
         posts = posts.concat(await getPostsFromPublic(group));
     }
-    console.log(`posts ${posts.length}`);
+
     return posts;
 }
 
+export async function getTopNPostsFromGroups(groupUrls, limit) {
+    let posts = await loadPostsFromGroups();
 
-console.log(loadPostsFromGroups([{'id': '-171004087', 'domain': null}, {'id': null, 'domain': 'mudachyo'}]).length);
+    return bestTimelinePosts(posts, limit)
+}

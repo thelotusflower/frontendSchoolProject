@@ -75,6 +75,7 @@ const SinglePostList = (props) => {
   const paramsNumber = parseInt(props.match.params.number, 10);
   console.log(75, paramsNumber, posts);
   const post = posts.find(p => p.number === Number(id))
+
   if (!post) {
     return <div>
         <h1 className="feed_header">
