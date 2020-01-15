@@ -110,7 +110,7 @@ const SinglePostList = (props) => {
 
     <div className="feed_item">
         <div className="feed_img">
-          <img src="https://i1.sndcdn.com/avatars-000154620368-s64hq8-t500x500.jpg" width="125"/>
+          <img src="https://i1.sndcdn.com/avatars-000154620368-s64hq8-t500x500.jpg" width="90"/>
         </div>
         <div className="feed_body">
           <div className="feed_autor">
@@ -118,10 +118,14 @@ const SinglePostList = (props) => {
           </div>
           <div className="feed_text">
             And that's not a joke, we really do.
+            <div>
+                <img src="https://previews.123rf.com/images/alinamd/alinamd1801/alinamd180100029/92714849-bright-sunny-day-in-park-the-sun-rays-illuminate-green-grass-and-trees-.jpg" width="55%"/>
+            </div>
           </div>
           <div className="feed_likes">
             <img src="https://i.pinimg.com/originals/00/da/4a/00da4ad5acf86d5f802038c527dbf635.png" width="25"/><span className="feed_amount">24</span>
             <img src="https://image.flaticon.com/icons/svg/1999/1999353.svg" width="25"/><span className="feed_amount">40</span>
+            <img src="https://pngimage.net/wp-content/uploads/2018/06/views-icon-png-4.png" width="25"/><span className="feed_amount">634</span>
           </div>
         </div>
       </div>
