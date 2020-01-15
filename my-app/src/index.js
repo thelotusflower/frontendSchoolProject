@@ -35,19 +35,26 @@ class AllPostLists extends React.Component {
        });
      }
 
-     addNewCategory(value) {
+     addNewCategory = (value) => {
+         const { changePosts, posts } = this.props;
+         const { categoryName } = this.state;
          console.log(SinglePostListAPI.postlist);
-         SinglePostListAPI.postlist.push({ number: SinglePostListAPI.postlist.length + 1, name: this.state.categoryName, groups: ['mdk', 'habr'] })
+         changePosts([...posts, { number: posts.length + 1, name: categoryName, groups: ['mdk', 'habr']}])
+         // SinglePostListAPI.postlist.push()
      }
 
     render() {
+        const { posts: postList } = this.props;
+        // const postList = this.props.posts;
+        const { categoryName } = this.state;
+
         return (
             <div className="feed_body">
-                <input type="text" value={this.state.categoryName} onChange={this.setCategoryName} placeholder="Введите имя категории..." />
-                <button onClick = {() => {this.addNewCategory()}}>Создать новую категорию</button>
+                <input type="text" value={categoryName} onChange={this.setCategoryName} placeholder="Введите имя категории..." />
+                <button disabled={!categoryName} onClick={this.addNewCategory}>Создать новую категорию</button>
                 <ul>
                   {
-                    SinglePostListAPI.all().map(p => (
+                    postList.map(p => (
                       <li key={p.number} className="nav_item">
                         <Link to={`/postlist/${p.number}`}>{p.number} {p.name}</Link>
                       </li>
@@ -60,9 +67,14 @@ class AllPostLists extends React.Component {
 }
 
 const SinglePostList = (props) => {
-  const post = SinglePostListAPI.get(
-    parseInt(props.match.params.number, 10)
-  )
+  // const post = SinglePostListAPI.get(
+  //   parseInt(props.match.params.number, 10)
+  // )
+  console.log(73, props, props.match.params);
+  const { id, posts } = props;
+  const paramsNumber = parseInt(props.match.params.number, 10);
+  console.log(75, paramsNumber, posts);
+  const post = posts.find(p => p.number === Number(id))
   if (!post) {
     return <div>
         <h1 className="feed_header">
@@ -117,10 +129,13 @@ const SinglePostList = (props) => {
   )
 }
 
-const PostLists = () => (
+const PostLists = (props) => (
   <Switch>
-    <Route exact path='/postlist' component={AllPostLists}/>
-    <Route path='/postlist/:number' component={SinglePostList}/>
+    <Route exact path='/postlist' render={routeProps => <AllPostLists {...routeProps} {...props}/>}/>
+    <Route path='/postlist/:id' render={routeProps => {
+        console.log(135, routeProps, props);
+        return <SinglePostList  {...routeProps} {...props} id={routeProps.match.params.id} />;
+    }}/>
   </Switch>
 )
 
@@ -139,11 +154,11 @@ const Icon = () => (
      </aside>
 )
 
-const Main = () => (
+const Main = (props) => (
   <main>
     <Switch>
       <Route exact path='/' component={Home}/>
-      <Route path='/postlist' component={PostLists}/>
+      <Route path='/postlist' render={postProps => <PostLists {...postProps} {...props} /> }/>
     </Switch>
   </main>
 )
@@ -177,15 +192,25 @@ const Header = () => (
   </header>
 )
 
-const App = () => (
-  <div className="app">
-   <div className="wrapper">
-        <Icon />
-        <Main />
-        <Header />
-    </div>
-  </div>
-)
+class App extends React.Component {
+    state = {
+        posts: SinglePostListAPI.postlist,
+    }
+    changePosts = (posts) => {
+        this.setState({posts})
+    }
+     render () {
+         return (
+          <div className="app">
+           <div className="wrapper">
+                <Icon />
+                <Main posts={this.state.posts} changePosts={this.changePosts}/>
+                <Header />
+            </div>
+          </div>
+         )
+    }
+}
 
 ReactDOM.render((
   <Router>
