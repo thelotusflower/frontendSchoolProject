@@ -38,7 +38,18 @@ async function loadPostsFromGroups(groupIds) {
 }
 
 export async function getTopNPostsFromGroups(groupUrls, limit) {
-    let posts = await loadPostsFromGroups();
+    const groupIds = groupUrls.map((el) => {
+        let lastSlashIdx = el.lastIndexOf('/') + 1;
+        let groupId = el.slice(lastSlashIdx, el.length - 1);
+        let publicPrefix = 'public';
+
+        if (groupId.startsWith(publicPrefix)) {
+            groupId = '-' + groupId.slice(publicPrefix.length - 1, el.length - 1);
+        }
+
+        return el.slice(el.lastIndexOf('/'), el.length - 1);
+    });
+    let posts = await loadPostsFromGroups(groupIds);
 
     return bestTimelinePosts(posts, limit)
 }
