@@ -1,3 +1,4 @@
+import { getTopNPostsFromGroups } from './post-loader.js';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {
@@ -7,6 +8,7 @@ import {
   Switch
 } from 'react-router-dom';
 import './index.css';
+
 
 const VkPostsAPI = {
   postlist: [
@@ -108,6 +110,9 @@ const VkPosts = (props) => {
         <button onClick = {() => {addVkLink(newVkLink)}}>Создать новую группу</button>
     </div>
     <div className="feed_header">Мои группы:
+    {
+        getTopNPostsFromGroups(['https://vk.com/habr','https://vk.com/mudachyo'], 10).then(function(value) { console.log(`RESULT ${value}`) })
+    }
     {
       post.links.map(g => (
         <li key={g.number}>
