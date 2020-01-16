@@ -110,8 +110,8 @@ const VkPosts = (props) => {
         <button onClick = {() => {addVkLink(newVkLink)}}>Создать новую группу</button>
     </div>
     <div className="feed_header">Мои группы:
-    {
-        getTopNPostsFromGroups(['https://vk.com/habr','https://vk.com/mudachyo'], 10).then(function(value) { console.log(`RESULT ${value}`) })
+    {/*
+        getTopNPostsFromGroups(['https://vk.com/habr','https://vk.com/mudachyo'], 10).then(function(value) { console.log(`RESULT ${JSON.strngify(value)}`) })*/
     }
     {
       post.links.map(g => (
