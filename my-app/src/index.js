@@ -8,20 +8,21 @@ import {
 } from 'react-router-dom';
 import './index.css';
 
-const SinglePostListAPI = {
+const VkPostsAPI = {
   postlist: [
-    { number: 1, name: "Котики", groups: ['mdk', 'habr'] },
-    { number: 2, name: "Мемы", groups: ['mdk', 'habr'] },
-    { number: 3, name: "Java", groups: ['mdk', 'habr'] }
+    { number: 1, name: "Котики", links: ['mdk', 'habr'] },
+    { number: 2, name: "Мемы", links: ['mdk', 'habr'] },
+    { number: 3, name: "Java", links: ['mdk', 'habr'] }
   ],
+  vkLink: '',
   all: function() { return this.postlist},
   get: function(id) {
-    const isSinglePostList = p => p.number === id
-    return this.postlist.find(isSinglePostList)
+    const isVkPosts = p => p.number === id
+    return this.postlist.find(isVkPosts)
   }
 }
 
-class AllPostLists extends React.Component {
+class CategiriesMenu extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -38,9 +39,9 @@ class AllPostLists extends React.Component {
      addNewCategory = (value) => {
          const { changePosts, posts } = this.props;
          const { categoryName } = this.state;
-         console.log(SinglePostListAPI.postlist);
-         changePosts([...posts, { number: posts.length + 1, name: categoryName, groups: ['mdk', 'habr']}])
-         // SinglePostListAPI.postlist.push()
+         console.log(VkPostsAPI.postlist);
+         changePosts([...posts, { number: posts.length + 1, name: categoryName, links: ['mdk', 'habr']}])
+         // VkPostsAPI.postlist.push()
      }
 
     render() {
@@ -66,15 +67,15 @@ class AllPostLists extends React.Component {
     }
 }
 
-const SinglePostList = (props) => {
-  // const post = SinglePostListAPI.get(
-  //   parseInt(props.match.params.number, 10)
-  // )
-  console.log(73, props, props.match.params);
-  const { id, posts } = props;
+const VkPosts = (props) => {
+  const { id, posts, b } = props;
   const paramsNumber = parseInt(props.match.params.number, 10);
-  console.log(75, paramsNumber, posts);
+
   const post = posts.find(p => p.number === Number(id))
+  const addVkLink = link => post.links.push(link)
+  let newVkLink = ''
+  const setNewVkLink = e => {newVkLink = e.target.value; console.log(75, props)};
+
   if (!post) {
     return <div>
         <h1 className="feed_header">
@@ -94,12 +95,12 @@ const SinglePostList = (props) => {
     </h1>
     <h1 className="feed_header">#{post.number} {post.name}</h1>
     <div className="feed_header">Добавить новую группу
-        <input type="text"  placeholder="Введите имя группы..." />
-        <button onClick = {() => {}}>Создать новую группу</button>
+        <input type="text" onChange={(e) => {setNewVkLink(e)}} placeholder="Введите имя группы..." />
+        <button onClick = {() => {addVkLink(newVkLink)}}>Создать новую группу</button>
     </div>
     <div className="feed_header">Мои группы:
     {
-      post.groups.map(g => (
+      post.links.map(g => (
         <li key={g.number}>
           {g}
         </li>
@@ -135,10 +136,10 @@ const SinglePostList = (props) => {
 
 const PostLists = (props) => (
   <Switch>
-    <Route exact path='/postlist' render={routeProps => <AllPostLists {...routeProps} {...props}/>}/>
+    <Route exact path='/postlist' render={routeProps => <CategiriesMenu {...routeProps} {...props}/>}/>
     <Route path='/postlist/:id' render={routeProps => {
         console.log(135, routeProps, props);
-        return <SinglePostList  {...routeProps} {...props} id={routeProps.match.params.id} />;
+        return <VkPosts  {...routeProps} {...props} id={routeProps.match.params.id} />;
     }}/>
   </Switch>
 )
@@ -167,7 +168,7 @@ const Main = (props) => (
   </main>
 )
 
-const Header = () => (
+const SidebarRight = () => (
   <header>
     <menu className="layout_header">
         <div className="section">
@@ -198,7 +199,7 @@ const Header = () => (
 
 class App extends React.Component {
     state = {
-        posts: SinglePostListAPI.postlist,
+        posts: VkPostsAPI.postlist,
     }
     changePosts = (posts) => {
         this.setState({posts})
@@ -209,7 +210,7 @@ class App extends React.Component {
            <div className="wrapper">
                 <Icon />
                 <Main posts={this.state.posts} changePosts={this.changePosts}/>
-                <Header />
+                <SidebarRight />
             </div>
           </div>
          )
