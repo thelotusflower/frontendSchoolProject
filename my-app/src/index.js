@@ -70,11 +70,20 @@ class CategiriesMenu extends React.Component {
 const VkPosts = (props) => {
   const { id, posts, b } = props;
   const paramsNumber = parseInt(props.match.params.number, 10);
+  let [newPosts, setPosts] = React.useState(posts)
 
-  const post = posts.find(p => p.number === Number(id))
-  const addVkLink = link => post.links.push(link)
-  let newVkLink = ''
-  const setNewVkLink = e => {newVkLink = e.target.value; console.log(75, props)};
+  const post = newPosts.find(p => p.number === Number(id))
+  let [newVkLink, setNewVkLink] = React.useState('')
+
+  let addVkLink = link => {
+      var newPosts1 =[
+          ...newPosts.filter(p => p.number !== post.number),
+          {...post, links:[...post.links, newVkLink]}
+      ]
+      setPosts(newPosts1)
+  }
+  // let addVkLink = link => post.links.push(link)
+  //const setNewVkLink = e => {newVkLink = e.target.value; console.log(75, props)};
 
   if (!post) {
     return <div>
@@ -95,7 +104,7 @@ const VkPosts = (props) => {
     </h1>
     <h1 className="feed_header">#{post.number} {post.name}</h1>
     <div className="feed_header">Добавить новую группу
-        <input type="text" onChange={(e) => {setNewVkLink(e)}} placeholder="Введите имя группы..." />
+        <input type="text" onChange={(e) => {setNewVkLink(e.target.value)}} placeholder="Введите имя группы..." />
         <button onClick = {() => {addVkLink(newVkLink)}}>Создать новую группу</button>
     </div>
     <div className="feed_header">Мои группы:
