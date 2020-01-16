@@ -1,5 +1,5 @@
 import { bestTimelinePosts } from './bestTimelinePosts.js';
-const fetch = require('node-fetch');
+import { fetch } from 'node-fetch';
 
 async function getPosts(offset, publicId) {
     const api_token = '4e007337ab62725f6719f9bba9f311fbc908ca66d4b0213b2f4d79526c1ff8e6e1c016e9d491d855c4ad5';
