@@ -1,8 +1,25 @@
-import { bestTimelinePosts } from './bestTimelinePosts.js';
-import { fetch } from 'node-fetch';
+const fetch = require('node-fetch');
+
+function bestTimelinePosts(posts, limit) {
+    return posts.map((post) => {
+        post.rating = getPostRating(post);
+        return post;
+    }).sort((a, b) => {
+        return b.rating - a.rating;
+    }).slice(0, limit);
+}
+
+function getPostRating(post) {
+    const likes = post.likes.count;
+    const comments = post.comments.count;
+    const reposts = post.reposts.count;
+    
+    return Math.ceil(likes + comments * 2 + reposts * 3);
+}
+
 
 async function getPosts(offset, publicId) {
-    const api_token = 'b8f60840820308226b63b9246fcf2b932920096f069c00e9ea3bd1d92a469eff227aff4b9d764be579964';
+    const api_token = 'e878717338e1d8b03b2481278365bf07078b6daa4153997f5e02748e94cae5c1b80483b17e8d827b8545a';
     let count = 100;
     let publicIdArg = publicId.id ? `ownerId=${publicId.id}` : `domain=${publicId.domain}`;
     let url = `https://api.vk.com/method/wall.get?${publicIdArg}&v=5.52&access_token=${api_token}&count=${count}&offset=${offset}`;
@@ -37,19 +54,28 @@ async function loadPostsFromGroups(groupIds) {
     return posts;
 }
 
-export async function getTopNPostsFromGroups(groupUrls, limit) {
+async function getTopNPostsFromGroups(groupUrls, limit) {
     const groupIds = groupUrls.map((el) => {
         let lastSlashIdx = el.lastIndexOf('/') + 1;
-        let groupId = el.slice(lastSlashIdx, el.length - 1);
+        let groupId = el.slice(lastSlashIdx, el.length);
         let publicPrefix = 'public';
-
+        let type = 'domain';        
+        
         if (groupId.startsWith(publicPrefix)) {
+            type = 'ownerId';
             groupId = '-' + groupId.slice(publicPrefix.length - 1, el.length - 1);
+        }        
+        
+        if (type === 'domain') {
+            return {'domain': groupId, 'ownerId': null}
+        } else {
+            return {'domain': null, 'ownerId': groupId}
         }
-
-        return el.slice(el.lastIndexOf('/'), el.length - 1);
     });
     let posts = await loadPostsFromGroups(groupIds);
 
-    return bestTimelinePosts(posts, limit)
+    return bestTimelinePosts(posts, limit);
 }
+
+console.log('start');
+getTopNPostsFromGroups(['https://vk.com/habr', 'https://vk.com/lentach']).then((value) => console.log(value));
